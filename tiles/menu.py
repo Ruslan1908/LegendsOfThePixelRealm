@@ -1,9 +1,9 @@
-import pygame
+import os
 import sys
+import pygame
 from config import SCREEN_WIDTH, WHITE
 
-
-# Minimalna klasa Button z komentarzami po polsku
+# Klasa reprezentująca przycisk w menu
 class Button:
     def __init__(self, image, pos, text_input, font, base_color, hovering_color):
         self.image = image
@@ -14,16 +14,20 @@ class Button:
         self.hovering_color = hovering_color
         self.text = self.font.render(text_input, True, self.base_color) if text_input != "" else None
         self.rect = self.image.get_rect(center=pos)
-
+    
     def update(self, screen):
-        if self.text:
-            screen.blit(self.text, self.text.get_rect(center=self.rect.center))
+        # Rysuje przycisk oraz (opcjonalnie) tekst centralnie względem przycisku
         screen.blit(self.image, self.rect)
-
+        if self.text:
+            text_rect = self.text.get_rect(center=self.rect.center)
+            screen.blit(self.text, text_rect)
+    
     def checkForInput(self, position):
+        # Zwraca True, gdy pozycja kursora znajduje się na przycisku
         return self.rect.collidepoint(position)
-
+    
     def changeColor(self, position):
+        # Zmienia kolor tekstu przycisku w zależności od pozycji kursora
         if self.rect.collidepoint(position):
             self.text = self.font.render(self.text_input, True, self.hovering_color)
         else:
@@ -31,12 +35,20 @@ class Button:
 
 
 def get_font(size):
-    """Funkcja zwraca czcionkę o określonym rozmiarze."""
-    return pygame.font.Font("assets/fonts/font.ttf", size)
+    """
+    Funkcja zwraca czcionkę o podanym rozmiarze.
+    Korzysta z absolutnej ścieżki do pliku 'assets/fonts/font.ttf' obliczonej względem katalogu głównego projektu.
+    """
+    base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    font_path = os.path.join(base_path, "assets", "fonts", "font.ttf")
+    return pygame.font.Font(font_path, size)
 
 
 def character_selection(screen):
-    """Funkcja obsługująca wybór postaci przez gracza."""
+    """
+    Funkcja wyświetlająca ekran wyboru postaci.
+    Zwraca identyfikator postaci wybranej przez gracza (np. "knight1").
+    """
     while True:
         screen.fill(WHITE)
         mouse_pos = pygame.mouse.get_pos()
@@ -45,17 +57,14 @@ def character_selection(screen):
         title_rect = title_text.get_rect(center=(SCREEN_WIDTH / 2, 100))
         screen.blit(title_text, title_rect)
 
-        button_knight1 = Button(pygame.image.load("assets/buttons/knight1.png"), (200, 300), "", get_font(75),
-                                (200, 200, 200), (255, 255, 255))
-        button_knight2 = Button(pygame.image.load("assets/buttons/knight2.png"), (400, 300), "", get_font(75),
-                                (200, 200, 200), (255, 255, 255))
-        button_knight3 = Button(pygame.image.load("assets/buttons/knight3.png"), (600, 300), "", get_font(75),
-                                (200, 200, 200), (255, 255, 255))
-
+        button_knight1 = Button(pygame.image.load("assets/buttons/knight1.png"), (200, 300), "", get_font(75), (200, 200, 200), (255, 255, 255))
+        button_knight2 = Button(pygame.image.load("assets/buttons/knight2.png"), (400, 300), "", get_font(75), (200, 200, 200), (255, 255, 255))
+        button_knight3 = Button(pygame.image.load("assets/buttons/knight3.png"), (600, 300), "", get_font(75), (200, 200, 200), (255, 255, 255))
+        
         for button in [button_knight1, button_knight2, button_knight3]:
             button.changeColor(mouse_pos)
             button.update(screen)
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -72,7 +81,11 @@ def character_selection(screen):
 
 
 def main_menu(screen):
-    """Funkcja wyświetlająca główne menu gry."""
+    """
+    Funkcja wyświetlająca główne menu gry.
+    Umożliwia graczowi wybór opcji: rozpoczęcie gry, opcje lub wyjście.
+    Po wybraniu opcji "Play" następuje przejście do ekranu wyboru postaci.
+    """
     while True:
         screen.fill(WHITE)
         mouse_pos = pygame.mouse.get_pos()
@@ -81,17 +94,14 @@ def main_menu(screen):
         title_rect = title_text.get_rect(center=(SCREEN_WIDTH / 2, 100))
         screen.blit(title_text, title_rect)
 
-        play_button = Button(pygame.image.load("assets/buttons/play.png"), (SCREEN_WIDTH / 2, 250), "", get_font(75),
-                             (200, 200, 200), (255, 255, 255))
-        options_button = Button(pygame.image.load("assets/buttons/options.png"), (SCREEN_WIDTH / 2, 350), "",
-                                get_font(75), (200, 200, 200), (255, 255, 255))
-        quit_button = Button(pygame.image.load("assets/buttons/quit.png"), (SCREEN_WIDTH / 2, 450), "", get_font(75),
-                             (200, 200, 200), (255, 255, 255))
-
+        play_button = Button(pygame.image.load("assets/buttons/play.png"), (SCREEN_WIDTH / 2, 250), "", get_font(75), (200, 200, 200), (255, 255, 255))
+        options_button = Button(pygame.image.load("assets/buttons/options.png"), (SCREEN_WIDTH / 2, 350), "", get_font(75), (200, 200, 200), (255, 255, 255))
+        quit_button = Button(pygame.image.load("assets/buttons/quit.png"), (SCREEN_WIDTH / 2, 450), "", get_font(75), (200, 200, 200), (255, 255, 255))
+        
         for button in [play_button, options_button, quit_button]:
             button.changeColor(mouse_pos)
             button.update(screen)
-
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -100,7 +110,7 @@ def main_menu(screen):
                 if play_button.checkForInput(mouse_pos):
                     player_choice = character_selection(screen)
                     print("Wybrano postać:", player_choice)
-                    return  # Po wyborze postaci przechodzimy do rozgrywki
+                    return  # Po wyborze postaci przechodzimy do gry
                 if options_button.checkForInput(mouse_pos):
                     print("Opcje")
                 if quit_button.checkForInput(mouse_pos):
