@@ -1,1 +1,31 @@
 # LegendsOfThePixelRealm
+
+LegendsOfThePixelRealm to dwuwymiarowa gra stworzona w języku Python z użyciem biblioteki pygame. Projekt zawiera:
+
+- Proceduralnie generowane podziemia (BSP, Delaunay, MST, korytarze)
+- System przeciwników z AI opartym na maszynie stanów
+- Rozbudowany HUD z wskaźnikami zdrowia, many, doświadczenia, ekwipunkiem, dialogami oraz mini mapą
+- System questów z panelami UI
+- Mechanikę walki z użyciem broni oraz interakcje (pułapki, dźwięki, itp.)
+- Funkcje zapisu i ładowania stanu gry
+
+## Instalacja
+
+1. Sklonuj repozytorium:
+
+bash:
+   git clone https://github.com/<twoje_uzytkownik>/LegendsOfThePixelRealm.git
+   
+2. Zainstaluj wymagane biblioteki:
+   
+bash:
+pip install pygame scipy networkx
+
+3. Uruchom grę:
+
+bash
+python main.py
+
+  Rozwój:
+Projekt został podzielony na moduły, które można łatwo rozszerzać. 
+Każdy folder i plik zawiera komentarze w języku polskim, co zapewnia przejrzystość i łatwość dalszych modyfikacji.
