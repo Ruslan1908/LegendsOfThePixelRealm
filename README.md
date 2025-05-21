@@ -14,7 +14,7 @@ LegendsOfThePixelRealm to dwuwymiarowa gra stworzona w języku Python z użyciem
 1. Sklonuj repozytorium:
 
 bash:
-   git clone https://github.com/<twoje_uzytkownik>/LegendsOfThePixelRealm.git
+   git clone https://github.com/<Ruslan1908>/LegendsOfThePixelRealm.git
    
 2. Zainstaluj wymagane biblioteki:
    
