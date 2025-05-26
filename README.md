@@ -26,6 +26,3 @@ pip install pygame scipy networkx
 bash
 python main.py
 
-  Rozwój:
-Projekt został podzielony na moduły, które można łatwo rozszerzać. 
-Każdy folder i plik zawiera komentarze w języku polskim, co zapewnia przejrzystość i łatwość dalszych modyfikacji.
